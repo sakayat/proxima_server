@@ -33,7 +33,8 @@ const createPost = async (req, res) => {
   }
 
   try {
-    const project = await Project.create({ ...req.body });
+    const user_id = req.user._id
+    const project = await Project.create({ ...req.body, user_id });
     res.status(200).json(project);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -41,8 +42,9 @@ const createPost = async (req, res) => {
 };
 
 // get all projects
-const getAllProjects = async (req, res) => {
-  const projects = await Project.find({}).sort({ createdAt: -1 });
+const getAllProjects = async (req,res) => {
+  const user_id = req.user._id
+  const projects = await Project.find({user_id}).sort({ createdAt: -1 });
   res.status(200).json(projects);
 };
 
@@ -113,7 +115,7 @@ const updateProject = async (req, res) => {
     { new: true }
   );
   if (!project) {
-    return res.status(404).json({error: "No Project Found"});
+    return res.status(404).json({ error: "No Project Found" });
   }
   res.status(200).json(project);
 };

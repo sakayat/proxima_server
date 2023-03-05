@@ -28,7 +28,7 @@ const projectSchema = new Schema(
       type: Number,
       required: true,
     },
-    user_id:{
+    user_id: {
       type: String,
       required: true,
     }
